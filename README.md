@@ -1,5 +1,3 @@
 # Discretion
 
-rip
-
-![not by me](./assets/initial-design-done-by-my-teammates.png)
+![not by me](assets/initial-design.png)
