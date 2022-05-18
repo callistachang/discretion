@@ -13,12 +13,15 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool isDoubleTapOn = false;
   bool isTripleTapOn = false;
-  Map<String, List> data = {"8:00 - 16:00": ["Record audio", "Send message"], "16:00 - 18:00": ["Did some other stuff"]};
+  Map<String, List> data = {
+    "8:00 - 16:00": ["Record audio", "Send message"],
+    "16:00 - 18:00": ["Did some other stuff"]
+  };
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: NavBar(),
+        drawer: NavBar(),
         appBar: AppBar(
           title: const Text('Safe Zone'),
           actions: <Widget>[
@@ -57,76 +60,73 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                  'Dashboard',
-                  style: Theme.of(context).textTheme.headline1
-              ),
+              Text('Dashboard', style: Theme.of(context).textTheme.headline1),
               SizedBox(height: 10),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                        'Tap-tap',
-                        style: Theme.of(context).textTheme.headline1
-                    ),
-                    Switch(
-                      value: isDoubleTapOn,
-                      onChanged: (value) {
-                        setState(() {
-                          isDoubleTapOn = value;
-                        });
-                      },
-                      activeTrackColor: Colors.lightGreenAccent,
-                      activeColor: Colors.green,
-                    ),
-                  ]
-              ),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Text('Tap-tap', style: Theme.of(context).textTheme.headline1),
+                Switch(
+                  value: isDoubleTapOn,
+                  onChanged: (value) {
+                    setState(() {
+                      isDoubleTapOn = value;
+                    });
+                  },
+                  activeTrackColor: Colors.lightGreenAccent,
+                  activeColor: Colors.green,
+                ),
+              ]),
               SizedBox(height: 14),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 2),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
-                    children: data.entries.map((e) => Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(e.key, style: Theme.of(context).textTheme.bodyText2),
-                        SizedBox(width: 20),
-                        Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: e.value.map((v) => Text(v, style: Theme.of(context).textTheme.bodyText2)).toList()
-                        )],
-                    )).toList()
-                ),
+                    children: data.entries
+                        .map((e) => Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(e.key,
+                                    style:
+                                        Theme.of(context).textTheme.bodyText2),
+                                SizedBox(width: 20),
+                                Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: e.value
+                                        .map((v) => Text(v,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2))
+                                        .toList())
+                              ],
+                            ))
+                        .toList()),
               ),
               Spacer(),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                        'Tap-tap-tap',
-                        style: Theme.of(context).textTheme.headline1
-                    ),
-                    Switch(
-                      value: isTripleTapOn,
-                      onChanged: (value) {
-                        setState(() {
-                          isTripleTapOn = value;
-                        });
-                      },
-                      activeTrackColor: Colors.lightGreenAccent,
-                      activeColor: Colors.green,
-                    ),
-                  ]
-              ),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Text('Tap-tap-tap',
+                    style: Theme.of(context).textTheme.headline1),
+                Switch(
+                  value: isTripleTapOn,
+                  onChanged: (value) {
+                    setState(() {
+                      isTripleTapOn = value;
+                    });
+                  },
+                  activeTrackColor: Colors.lightGreenAccent,
+                  activeColor: Colors.green,
+                ),
+              ]),
               SizedBox(height: 10),
               Flexible(
                 child: Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(width: 1, color: Colors.green, style: BorderStyle.solid),
-                      color: Colors.blue[900]
-                  ),
+                      border: Border.all(
+                          width: 1,
+                          color: Colors.green,
+                          style: BorderStyle.solid),
+                      color: Colors.blue[900]),
                   child: TextField(
                     minLines: 10,
                     maxLines: 20,
@@ -142,7 +142,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
-        )
-    );
+        ));
   }
 }

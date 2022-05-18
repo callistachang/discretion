@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:intl/intl.dart';
 
 const SETTINGS_PAGE_ROUTE = "/settings";
 
@@ -19,6 +20,9 @@ class _SettingsPageState extends State<SettingsPage> {
     "Call": false,
     "Make sound": false
   };
+  static String timeFormatPattern = "hh:mm:ss a";
+  String startTimeString = DateFormat(timeFormatPattern).format(DateTime.now());
+  String endTimeString = DateFormat(timeFormatPattern).format(DateTime.now());
 
   Widget createFunction(String title) {
     return Container(
@@ -67,15 +71,15 @@ class _SettingsPageState extends State<SettingsPage> {
                         onPressed: () {
                           DatePicker.showTimePicker(context,
                               showTitleActions: true, onChanged: (date) {
-                            print('change $date in time zone ' +
-                                date.timeZoneOffset.inHours.toString());
-                          }, onConfirm: (date) {
-                            print('confirm $date');
+                            setState(() {
+                              startTimeString =
+                                  DateFormat(timeFormatPattern).format(date);
+                            });
                           }, currentTime: DateTime.now());
                         },
                         child: Text(
-                          '8:00',
-                          style: TextStyle(color: Colors.blue),
+                          startTimeString,
+                          style: TextStyle(color: Colors.blue, fontSize: 24),
                         )),
                   ],
                 ),
@@ -86,16 +90,16 @@ class _SettingsPageState extends State<SettingsPage> {
                     TextButton(
                         onPressed: () {
                           DatePicker.showTimePicker(context,
-                              showTitleActions: true, onChanged: (date) {
-                            print('change $date in time zone ' +
-                                date.timeZoneOffset.inHours.toString());
-                          }, onConfirm: (date) {
-                            print('confirm $date');
+                              showTitleActions: true, onConfirm: (date) {
+                            setState(() {
+                              endTimeString =
+                                  DateFormat(timeFormatPattern).format(date);
+                            });
                           }, currentTime: DateTime.now());
                         },
                         child: Text(
-                          '8:00',
-                          style: TextStyle(color: Colors.blue),
+                          endTimeString,
+                          style: TextStyle(color: Colors.blue, fontSize: 24),
                         )),
                   ],
                 ),
@@ -105,10 +109,10 @@ class _SettingsPageState extends State<SettingsPage> {
               // createFunction("Record audio")
               Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: data.entries.map((e) => createFunction(e.key)).toList()),
+                  children:
+                      data.entries.map((e) => createFunction(e.key)).toList()),
             ],
           ),
-
         ));
   }
 }

@@ -10,7 +10,6 @@ class MessagePage extends StatefulWidget {
 }
 
 class _MessagePageState extends State<MessagePage> {
-  // List<String> data = ["Sinney Shao", "Callista Chang"];
   Map<String, bool> data = {"Sinney Shao": true, "Kamisato Ayaka": false};
 
   Widget createContact(String name) {

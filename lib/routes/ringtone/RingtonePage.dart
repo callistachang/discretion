@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:intl/intl.dart';
 
 const RINGTONE_PAGE_ROUTE = "/ringtone";
 
@@ -27,8 +28,8 @@ class _RingtonePageState extends State<RingtonePage> {
     "E"
   ];
   String currentRingtone = "Radar";
-
-  // String currentTime = DateFormat("HH:mm:ss").format(DateTime.now());
+  static String timeFormatPattern = "hh:mm:ss a";
+  String delayTimeString = DateFormat(timeFormatPattern).format(DateTime.now());
 
   Widget createRingtoneRow(String name) {
     return ListTile(
@@ -78,20 +79,20 @@ class _RingtonePageState extends State<RingtonePage> {
                           width: 1,
                           color: Colors.green,
                           style: BorderStyle.solid),
-                      color: Colors.blue[900]),
+                      color: Colors.blue[500]),
                   child: TextButton(
                       onPressed: () {
                         DatePicker.showTimePicker(context,
-                            showTitleActions: true, onChanged: (date) {
-                          print('change $date in time zone ' +
-                              date.timeZoneOffset.inHours.toString());
-                        }, onConfirm: (date) {
-                          print('confirm $date');
+                            showTitleActions: true, onConfirm: (date) {
+                          setState(() {
+                            delayTimeString =
+                                DateFormat(timeFormatPattern).format(date);
+                          });
                         }, currentTime: DateTime.now());
                       },
                       child: Text(
-                        'show time picker',
-                        style: TextStyle(color: Colors.blue),
+                        delayTimeString,
+                        style: TextStyle(color: Colors.white, fontSize: 40),
                       )),
                 ),
               ),

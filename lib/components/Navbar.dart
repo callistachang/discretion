@@ -4,8 +4,6 @@ import 'package:safe_zone/routes/message/MessagePage.dart';
 import 'package:safe_zone/routes/ringtone/RingtonePage.dart';
 import 'package:safe_zone/routes/settings/SettingsPage.dart';
 
-
-
 class NavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
