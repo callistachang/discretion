@@ -13,8 +13,8 @@ class NavBar extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            accountName: Text('Amy'),
-            accountEmail: Text('amy@gmail.com'),
+            accountName: Text('Test Account'),
+            accountEmail: Text('test_account@email.com'),
             currentAccountPicture: CircleAvatar(
               child: ClipOval(
                 child: Image.network(

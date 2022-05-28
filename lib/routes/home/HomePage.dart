@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:safe_zone/components/Navbar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 const HOME_PAGE_ROUTE = "/";
 
@@ -11,12 +12,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool isDoubleTapOn = false;
-  bool isTripleTapOn = false;
-  Map<String, List> data = {
-    "8:00 - 16:00": ["Record audio", "Send message"],
-    "16:00 - 18:00": ["Did some other stuff"]
-  };
+  late String twoTapValue = 'Record Audio';
+  late String threeTapValue = 'Record Video';
+
+  late SharedPreferences prefs;
+
+  void sharedPreferenceInit() async {
+    prefs = await SharedPreferences.getInstance();
+    twoTapValue = prefs.getString("twoTap");
+    threeTapValue = prefs.getString("threeTap");
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    sharedPreferenceInit();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,36 +36,6 @@ class _HomePageState extends State<HomePage> {
         drawer: NavBar(),
         appBar: AppBar(
           title: const Text('Safe Zone'),
-          actions: <Widget>[
-            // IconButton(
-            //   icon: const Icon(Icons.add_alert),
-            //   onPressed: () {
-            //     ScaffoldMessenger.of(context).showSnackBar(
-            //         const SnackBar(content: Text('This is a snackbar')));
-            //   },
-            // ),
-            // IconButton(
-            //   icon: const Icon(Icons.navigate_next),
-            //   tooltip: 'Go to the next page',
-            //   onPressed: () {
-            //     Navigator.push(context, MaterialPageRoute<void>(
-            //       builder: (BuildContext context) {
-            //         return Scaffold(
-            //           appBar: AppBar(
-            //             title: const Text('Next page'),
-            //           ),
-            //           body: const Center(
-            //             child: Text(
-            //               'This is the next page',
-            //               style: TextStyle(fontSize: 24),
-            //             ),
-            //           ),
-            //         );
-            //       },
-            //     ));
-            //   },
-            // ),
-          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(16),
@@ -62,84 +44,27 @@ class _HomePageState extends State<HomePage> {
             children: [
               Text('Dashboard', style: Theme.of(context).textTheme.headline1),
               SizedBox(height: 10),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Text('Tap-tap', style: Theme.of(context).textTheme.headline1),
-                Switch(
-                  value: isDoubleTapOn,
-                  onChanged: (value) {
-                    setState(() {
-                      isDoubleTapOn = value;
-                    });
-                  },
-                  activeTrackColor: Colors.lightGreenAccent,
-                  activeColor: Colors.green,
+              ElevatedButton(
+                child: const Text(
+                  'Discretion',
+                  style: TextStyle(fontSize: 24),
                 ),
-              ]),
-              SizedBox(height: 14),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 2),
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  fixedSize: Size(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width),
+                  shape: const CircleBorder(),
+                ),
+              ),
+              Center(
                 child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: data.entries
-                        .map((e) => Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(e.key,
-                                    style:
-                                        Theme.of(context).textTheme.bodyText2),
-                                SizedBox(width: 20),
-                                Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: e.value
-                                        .map((v) => Text(v,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyText2))
-                                        .toList())
-                              ],
-                            ))
-                        .toList()),
-              ),
-              Spacer(),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Text('Tap-tap-tap',
-                    style: Theme.of(context).textTheme.headline1),
-                Switch(
-                  value: isTripleTapOn,
-                  onChanged: (value) {
-                    setState(() {
-                      isTripleTapOn = value;
-                    });
-                  },
-                  activeTrackColor: Colors.lightGreenAccent,
-                  activeColor: Colors.green,
+                  children: [
+                    Text("Tap 2x to $twoTapValue"),
+                    SizedBox(height: 10),
+                    Text("Tap 3x to $threeTapValue"),
+                    SizedBox(height: 10),
+                  ],
                 ),
-              ]),
-              SizedBox(height: 10),
-              Flexible(
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                          width: 1,
-                          color: Colors.green,
-                          style: BorderStyle.solid),
-                      color: Colors.blue[900]),
-                  child: TextField(
-                    minLines: 10,
-                    maxLines: 20,
-                    decoration: const InputDecoration(
-                        hintText: 'Type something here',
-                        contentPadding: EdgeInsets.all(15),
-                        border: InputBorder.none),
-                    onChanged: (value) {
-                      // Do something
-                    },
-                  ),
-                ),
-              ),
+              )
             ],
           ),
         ));
