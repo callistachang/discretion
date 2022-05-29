@@ -27,10 +27,6 @@ class _MessagePageState extends State<MessagePage> {
     prefs = await SharedPreferences.getInstance();
     String stringData = prefs.getString("contacts");
     data = new Map<String, String>.from(json.decode(stringData));
-    // ignore: unnecessary_null_comparison
-    if (data == null) {
-      data = {"Callista Chang": "6596504510"};
-    }
     setState(() {});
   }
 
@@ -148,12 +144,6 @@ class _MessagePageState extends State<MessagePage> {
                 "Default Message",
                 style: Theme.of(context).textTheme.headline1,
               ),
-              // Center(
-              //   child: Text(
-              //     "Default Message",
-              //     style: Theme.of(context).textTheme.headline1,
-              //   ),
-              // ),
               SizedBox(height: 10),
               Flexible(
                 child: Container(
@@ -171,9 +161,6 @@ class _MessagePageState extends State<MessagePage> {
                         contentPadding: EdgeInsets.all(15),
                         border: InputBorder.none),
                     controller: textarea,
-                    // onChanged: (value) {
-                    //   // Do something
-                    // },
                   ),
                 ),
               ),

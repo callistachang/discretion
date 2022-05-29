@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:intl/intl.dart';
 
 const RINGTONE_PAGE_ROUTE = "/ringtone";
@@ -58,40 +56,6 @@ class _RingtonePageState extends State<RingtonePage> {
                 ),
                 height: 650,
               ),
-              // SizedBox(height: 10),
-              // Center(
-              //   child: Text(
-              //     "Delay",
-              //     style: Theme.of(context).textTheme.headline1,
-              //   ),
-              // ),
-              // SizedBox(height: 10),
-              // Flexible(
-              //   child: Container(
-              //     width: MediaQuery.of(context).size.width,
-              //     decoration: BoxDecoration(
-              //         borderRadius: BorderRadius.circular(20),
-              //         border: Border.all(
-              //             width: 1,
-              //             color: Colors.green,
-              //             style: BorderStyle.solid),
-              //         color: Colors.blue[500]),
-              //     child: TextButton(
-              //         onPressed: () {
-              //           DatePicker.showTimePicker(context,
-              //               showTitleActions: true, onConfirm: (date) {
-              //             setState(() {
-              //               delayTimeString =
-              //                   DateFormat(timeFormatPattern).format(date);
-              //             });
-              //           }, currentTime: DateTime.now());
-              //         },
-              //         child: Text(
-              //           delayTimeString,
-              //           style: TextStyle(color: Colors.white, fontSize: 40),
-              //         )),
-              //   ),
-              // ),
             ],
           ),
         ));

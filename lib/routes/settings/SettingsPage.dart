@@ -12,20 +12,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  Map<String, bool> data = {
-    "Record audio": true,
-    "Record video": false,
-    "Send location": false,
-    "Send message": true,
-    "Call": false,
-    "Make sound": false
-  };
-  static String timeFormatPattern = "hh:mm:ss a";
-  String startTimeString = DateFormat(timeFormatPattern).format(DateTime.now());
-  String endTimeString = DateFormat(timeFormatPattern).format(DateTime.now());
-
-  // String twoTapValue = 'Record Audio';
-
   late String twoTapValue = 'Record Audio';
   late String threeTapValue = 'Record Video';
 
@@ -43,7 +29,6 @@ class _SettingsPageState extends State<SettingsPage> {
     super.initState();
     sharedPreferenceInit();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +71,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 );
               }).toList(),
             ),
-            SizedBox(height:30),
+            SizedBox(height: 30),
             Text('3-Tap', style: Theme.of(context).textTheme.headline1),
             DropdownButton<String>(
               value: threeTapValue,
@@ -102,7 +87,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   threeTapValue = newValue!;
                   prefs.setString("threeTap", threeTapValue);
                 });
-                // sharedPreferenceInit();
               },
               items: <String>[
                 'Record Audio',
@@ -116,64 +100,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 );
               }).toList(),
             )
-
           ],
         ),
       ),
     );
-    // Text('3-Tap', style: Theme.of(context).textTheme.headline1),
-
-    // Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-    //   Column(
-    //     crossAxisAlignment: CrossAxisAlignment.start,
-    //     children: [
-    //       Text('Start', style: Theme.of(context).textTheme.bodyText2),
-    //       TextButton(
-    //           onPressed: () {
-    //             DatePicker.showTimePicker(context,
-    //                 showTitleActions: true, onChanged: (date) {
-    //               setState(() {
-    //                 startTimeString =
-    //                     DateFormat(timeFormatPattern).format(date);
-    //               });
-    //             }, currentTime: DateTime.now());
-    //           },
-    //           child: Text(
-    //             startTimeString,
-    //             style: TextStyle(color: Colors.blue, fontSize: 24),
-    //           )),
-    //     ],
-    //   ),
-    //   Column(
-    //     crossAxisAlignment: CrossAxisAlignment.start,
-    //     children: [
-    //       Text('End', style: Theme.of(context).textTheme.bodyText2),
-    //       TextButton(
-    //           onPressed: () {
-    //             DatePicker.showTimePicker(context,
-    //                 showTitleActions: true, onConfirm: (date) {
-    //               setState(() {
-    //                 endTimeString =
-    //                     DateFormat(timeFormatPattern).format(date);
-    //               });
-    //             }, currentTime: DateTime.now());
-    //           },
-    //           child: Text(
-    //             endTimeString,
-    //             style: TextStyle(color: Colors.blue, fontSize: 24),
-    //           )),
-    //     ],
-    //   ),
-    // ]),
-    // SizedBox(height: 14),
-    // Text('Functions', style: Theme.of(context).textTheme.headline1),
-    // // createFunction("Record audio")
-    // Column(
-    //     crossAxisAlignment: CrossAxisAlignment.start,
-    //     children:
-    //         data.entries.map((e) => createFunction(e.key)).toList()),
-    //     ],
-    //   ),
-    // ));
   }
 }

@@ -17,7 +17,6 @@ class SafeZoneApp extends StatelessWidget {
       darkTheme: ThemeData(
         brightness: Brightness.dark,
         primaryColor: Colors.blueAccent[400],
-        accentColor: Colors.amber[500],
         textTheme: const TextTheme(
           headline1: TextStyle(
               fontSize: 32.0, fontWeight: FontWeight.bold, color: Colors.white),

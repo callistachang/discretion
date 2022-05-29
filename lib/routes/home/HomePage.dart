@@ -51,7 +51,8 @@ class _HomePageState extends State<HomePage> {
                 ),
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
-                  fixedSize: Size(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width),
+                  fixedSize: Size(MediaQuery.of(context).size.height,
+                      MediaQuery.of(context).size.width),
                   shape: const CircleBorder(),
                 ),
               ),
