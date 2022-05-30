@@ -41,7 +41,7 @@ class _SettingsPageState extends State<SettingsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('2-Tap', style: Theme.of(context).textTheme.headline1),
+            Text('1-Tap', style: Theme.of(context).textTheme.headline1),
             DropdownButton<String>(
               value: twoTapValue,
               icon: const Icon(Icons.arrow_downward),
@@ -72,7 +72,7 @@ class _SettingsPageState extends State<SettingsPage> {
               }).toList(),
             ),
             SizedBox(height: 30),
-            Text('3-Tap', style: Theme.of(context).textTheme.headline1),
+            Text('2-Tap', style: Theme.of(context).textTheme.headline1),
             DropdownButton<String>(
               value: threeTapValue,
               icon: const Icon(Icons.arrow_downward),

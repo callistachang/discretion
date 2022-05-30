@@ -1,5 +1,11 @@
+import 'dart:convert';
+
+import 'package:discretion/components/Navbar.dart';
+import 'package:discretion/routes/home/get_location.dart';
+import 'package:discretion/routes/home/record_audio.dart';
 import 'package:flutter/material.dart';
-import 'package:safe_zone/components/Navbar.dart';
+import 'package:flutter_sms/flutter_sms.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const HOME_PAGE_ROUTE = "/";
@@ -14,6 +20,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late String twoTapValue = 'Record Audio';
   late String threeTapValue = 'Record Video';
+  int lastTap = 1;
+  int consecutiveTaps = 1;
 
   late SharedPreferences prefs;
 
@@ -30,6 +38,58 @@ class _HomePageState extends State<HomePage> {
     sharedPreferenceInit();
   }
 
+  void sendSMSToContacts(String defaultMessage, List<String> recipients) async {
+    await sendSMS(message: defaultMessage, recipients: recipients)
+        .then((value) {
+      print("Location sent to contacts");
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Location sent to contacts"),
+      ));
+    }).catchError((onError) {
+      print("Something went wrong");
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Something went wrong"),
+      ));
+    });
+  }
+
+  void executeAction(setting, Map<String, dynamic> kwargs) async {
+    switch (setting) {
+      case "Record Audio":
+        {
+          RecordAudio recordAudio = new RecordAudio();
+          recordAudio.startRecording();
+          // recordAudio.stopRecording();
+        }
+        break;
+      case "Record Video":
+        {
+          print("video");
+        }
+        break;
+      case 'Send Location to Contacts':
+        {
+          LocationService service = new LocationService();
+          Position pos = await service.getCurrentPosition();
+          final maps = Uri.https(
+              "google.com", "maps", {"q": "${pos.latitude},${pos.longitude}"});
+          sendSMSToContacts(
+              "Here is my current location: $maps", kwargs["phoneNumbers"]);
+        }
+        break;
+      case "Send Message to Contacts":
+        {
+          sendSMSToContacts(kwargs["defaultMessage"], kwargs["phoneNumbers"]);
+        }
+        break;
+      default:
+        {
+          print("No action configured");
+        }
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,24 +104,49 @@ class _HomePageState extends State<HomePage> {
             children: [
               Text('Dashboard', style: Theme.of(context).textTheme.headline1),
               SizedBox(height: 10),
-              ElevatedButton(
-                child: const Text(
-                  'Discretion',
-                  style: TextStyle(fontSize: 24),
-                ),
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  fixedSize: Size(MediaQuery.of(context).size.height,
-                      MediaQuery.of(context).size.width),
-                  shape: const CircleBorder(),
+              GestureDetector(
+                onTap: () {
+                  print(prefs.getString("contacts"));
+                  Map<String, dynamic> kwargs = {
+                    "defaultMessage": prefs.getString("defaultMessage"),
+                    "phoneNumbers": new Map<String, String>.from(
+                            json.decode(prefs.getString("contacts")))
+                        .values
+                        .toList()
+                  };
+                  executeAction(twoTapValue, kwargs);
+                },
+                onDoubleTap: () {
+                  Map<String, dynamic> kwargs = {
+                    "defaultMessage": prefs.getString("defaultMessage"),
+                    "phoneNumbers": new Map<String, String>.from(
+                            json.decode(prefs.getString("contacts")))
+                        .values
+                        .toList()
+                  };
+                  executeAction(threeTapValue, kwargs);
+                },
+                child: Center(
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: const Text(
+                      'Discretion',
+                      style: TextStyle(fontSize: 24),
+                    ),
+                    height: 300,
+                    width: 300,
+                    decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.circular(1000)),
+                  ),
                 ),
               ),
               Center(
                 child: Column(
                   children: [
-                    Text("Tap 2x to $twoTapValue"),
+                    Text("Tap 1x to $twoTapValue"),
                     SizedBox(height: 10),
-                    Text("Tap 3x to $threeTapValue"),
+                    Text("Tap 2x to $threeTapValue"),
                     SizedBox(height: 10),
                   ],
                 ),

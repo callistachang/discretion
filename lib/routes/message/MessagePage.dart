@@ -17,6 +17,7 @@ class MessagePage extends StatefulWidget {
 
 class _MessagePageState extends State<MessagePage> {
   TextEditingController textarea = TextEditingController();
+
   TextEditingController newContactName = TextEditingController();
   TextEditingController newNumber = TextEditingController();
 
@@ -26,6 +27,7 @@ class _MessagePageState extends State<MessagePage> {
   void sharedPreferenceInit() async {
     prefs = await SharedPreferences.getInstance();
     String stringData = prefs.getString("contacts");
+    // textarea.text = prefs.getString("defaultMessage");
     data = new Map<String, String>.from(json.decode(stringData));
     setState(() {});
   }
@@ -161,6 +163,14 @@ class _MessagePageState extends State<MessagePage> {
                         contentPadding: EdgeInsets.all(15),
                         border: InputBorder.none),
                     controller: textarea,
+                    onChanged: (String value) {
+                      setState(() {
+                        prefs.setString("defaultMessage", value);
+                      });
+                    },
+                    // onChanged: (String value) {
+                    //   print("testing");
+                    // },
                   ),
                 ),
               ),

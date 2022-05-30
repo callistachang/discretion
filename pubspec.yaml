@@ -1,4 +1,4 @@
-name: safe_zone
+name: discretion
 description: A new Flutter application.
 
 # The following line prevents the package from being accidentally published to
@@ -38,6 +38,10 @@ dependencies:
       ref: fix/issue#19
   flutter_ringtone_player: ^3.1.1
   rflutter_alert: ^2.0.4
+  flutter_sound: ^2.0.3
+  wechat_camera_picker: ^3.2.0+1
+  geolocator: ^8.2.1
+  permission_handler: ^9.2.0
 
 dev_dependencies:
   flutter_test:

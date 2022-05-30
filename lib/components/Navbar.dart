@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:safe_zone/routes/home/HomePage.dart';
-import 'package:safe_zone/routes/message/MessagePage.dart';
-import 'package:safe_zone/routes/ringtone/RingtonePage.dart';
-import 'package:safe_zone/routes/settings/SettingsPage.dart';
+import 'package:discretion/routes/home/HomePage.dart';
+import 'package:discretion/routes/message/MessagePage.dart';
+import 'package:discretion/routes/ringtone/RingtonePage.dart';
+import 'package:discretion/routes/settings/SettingsPage.dart';
 
 class NavBar extends StatelessWidget {
   @override
