@@ -1,12 +1,14 @@
 import 'dart:convert';
 
 import 'package:discretion/components/Navbar.dart';
-import 'package:discretion/routes/home/get_location.dart';
-import 'package:discretion/routes/home/record_audio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter_sms/flutter_sms.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wechat_camera_picker/wechat_camera_picker.dart';
+
+import 'LocationService.dart';
 
 const HOME_PAGE_ROUTE = "/";
 
@@ -18,7 +20,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late String twoTapValue = 'Record Audio';
+  late String twoTapValue = 'Call Top Contact';
   late String threeTapValue = 'Record Video';
   int lastTap = 1;
   int consecutiveTaps = 1;
@@ -55,16 +57,29 @@ class _HomePageState extends State<HomePage> {
 
   void executeAction(setting, Map<String, dynamic> kwargs) async {
     switch (setting) {
-      case "Record Audio":
+      case "Call Top Contact":
         {
-          RecordAudio recordAudio = new RecordAudio();
-          recordAudio.startRecording();
-          // recordAudio.stopRecording();
+          if (kwargs["phoneNumbers"] == null) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text("No contacts configured"),
+            ));
+            break;
+          }
+          await FlutterPhoneDirectCaller.callNumber(kwargs["phoneNumbers"][0]);
         }
         break;
       case "Record Video":
         {
-          print("video");
+          await CameraPicker.pickFromCamera(
+            context,
+            pickerConfig: const CameraPickerConfig(
+                enableRecording: true,
+                onlyEnableRecording: true,
+                enableTapRecording: true),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Video saved"),
+          ));
         }
         break;
       case 'Send Location to Contacts':
@@ -84,7 +99,9 @@ class _HomePageState extends State<HomePage> {
         break;
       default:
         {
-          print("No action configured");
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("No action configured"),
+          ));
         }
         break;
     }
@@ -106,24 +123,27 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: 10),
               GestureDetector(
                 onTap: () {
-                  print(prefs.getString("contacts"));
                   Map<String, dynamic> kwargs = {
                     "defaultMessage": prefs.getString("defaultMessage"),
-                    "phoneNumbers": new Map<String, String>.from(
+                  };
+                  if (prefs.getString("contacts") != null) {
+                    kwargs["phoneNumbers"] = new Map<String, String>.from(
                             json.decode(prefs.getString("contacts")))
                         .values
-                        .toList()
-                  };
+                        .toList();
+                  }
                   executeAction(twoTapValue, kwargs);
                 },
                 onDoubleTap: () {
                   Map<String, dynamic> kwargs = {
                     "defaultMessage": prefs.getString("defaultMessage"),
-                    "phoneNumbers": new Map<String, String>.from(
-                            json.decode(prefs.getString("contacts")))
-                        .values
-                        .toList()
                   };
+                  if (prefs.getString("contacts") != null) {
+                    kwargs["phoneNumbers"] = new Map<String, String>.from(
+                        json.decode(prefs.getString("contacts")))
+                        .values
+                        .toList();
+                  }
                   executeAction(threeTapValue, kwargs);
                 },
                 child: Center(

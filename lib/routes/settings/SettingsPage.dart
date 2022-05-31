@@ -12,7 +12,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  late String twoTapValue = 'Record Audio';
+  late String twoTapValue = 'Call Top Contact';
   late String threeTapValue = 'Record Video';
 
   late SharedPreferences prefs;
@@ -60,7 +60,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 // sharedPreferenceInit();
               },
               items: <String>[
-                'Record Audio',
+                'Call Top Contact',
                 'Record Video',
                 'Send Location to Contacts',
                 'Send Message to Contacts'
@@ -89,7 +89,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 });
               },
               items: <String>[
-                'Record Audio',
+                'Call Top Contact',
                 'Record Video',
                 'Send Location to Contacts',
                 'Send Message to Contacts'
