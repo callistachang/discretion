@@ -44,11 +44,12 @@ class _HomePageState extends State<HomePage> {
     await sendSMS(message: defaultMessage, recipients: recipients)
         .then((value) {
       print("Location sent to contacts");
+      print(defaultMessage);
+      print(recipients);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Location sent to contacts"),
       ));
     }).catchError((onError) {
-      print("Something went wrong");
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Something went wrong"),
       ));
@@ -70,13 +71,13 @@ class _HomePageState extends State<HomePage> {
         break;
       case "Record Video":
         {
-          await CameraPicker.pickFromCamera(
+          AssetEntity entity = await CameraPicker.pickFromCamera(
             context,
             pickerConfig: const CameraPickerConfig(
                 enableRecording: true,
                 onlyEnableRecording: true,
                 enableTapRecording: true),
-          );
+          ) as AssetEntity;
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text("Video saved"),
           ));
@@ -94,6 +95,7 @@ class _HomePageState extends State<HomePage> {
         break;
       case "Send Message to Contacts":
         {
+          print(kwargs);
           sendSMSToContacts(kwargs["defaultMessage"], kwargs["phoneNumbers"]);
         }
         break;
@@ -123,9 +125,12 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: 10),
               GestureDetector(
                 onTap: () {
-                  Map<String, dynamic> kwargs = {
-                    "defaultMessage": prefs.getString("defaultMessage"),
-                  };
+                  Map<String, dynamic> kwargs = {};
+                  if (prefs.getString("defaultMessage") == null) {
+                    kwargs["defaultMessage"] = "I am in danger!";
+                  } else {
+                    kwargs["defaultMessage"] = prefs.getString("defaultMessage");
+                  }
                   if (prefs.getString("contacts") != null) {
                     kwargs["phoneNumbers"] = new Map<String, String>.from(
                             json.decode(prefs.getString("contacts")))
@@ -135,9 +140,12 @@ class _HomePageState extends State<HomePage> {
                   executeAction(twoTapValue, kwargs);
                 },
                 onDoubleTap: () {
-                  Map<String, dynamic> kwargs = {
-                    "defaultMessage": prefs.getString("defaultMessage"),
-                  };
+                  Map<String, dynamic> kwargs = {};
+                  if (prefs.getString("defaultMessage") == null) {
+                    kwargs["defaultMessage"] = "I am in danger!";
+                  } else {
+                    kwargs["defaultMessage"] = prefs.getString("defaultMessage");
+                  }
                   if (prefs.getString("contacts") != null) {
                     kwargs["phoneNumbers"] = new Map<String, String>.from(
                         json.decode(prefs.getString("contacts")))

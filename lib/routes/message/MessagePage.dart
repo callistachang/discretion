@@ -21,7 +21,7 @@ class _MessagePageState extends State<MessagePage> {
   TextEditingController newContactName = TextEditingController();
   TextEditingController newNumber = TextEditingController();
 
-  late Map<String, String> data = {"Callista Chang": "6596504510"};
+  late Map<String, String> data = {};
   late SharedPreferences prefs;
 
   void sharedPreferenceInit() async {
